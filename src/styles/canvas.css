@@ -1,0 +1,15 @@
+.canvas-cont{
+    position: absolute;
+    top: 4rem;
+    right: -100%;
+    width: 100%;
+    border: gray 3px;
+    filter: drop-shadow(0 0 0.75rem gray);
+}
+.seedpoints-list{
+    position: absolute;
+    top: 0;
+    right: -110%;
+    width: 50%;
+
+}
