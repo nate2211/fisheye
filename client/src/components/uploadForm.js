@@ -14,7 +14,7 @@ export default function UploadForm() {
         var fdata = new FormData();
         fdata.append('Cimage', image);
         fdata.append('image_name', image.name);
-        axios.post('http://127.0.0.1:8000/backend/canvas/', fdata).then((res) => {setData(res.data.canvasRectPoints); console.log(res)})
+        axios.post('https://natefsheye.herokuapp.com/backend/canvas/', fdata).then((res) => {setData(res.data.canvasRectPoints); console.log(res)})
             .then(() => setRes((prev) => ({
                 submit: true,
                 c: prev.c + 1,

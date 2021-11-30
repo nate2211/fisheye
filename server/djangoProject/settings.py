@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from markdown.extensions.codehilite import pygments
 from rest_framework.schemas import coreapi
@@ -29,7 +30,7 @@ SECRET_KEY = 'django-insecure-j+^u(%al0hcs0-0sk+*3#g0*4-&4!57(97xe$wc_1(r=vn^_(9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "25.14.183.37"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "25.14.183.37" ,"https://fisheye-b42a2.firebaseapp.com/"]
 
 
 # Application definition
@@ -48,7 +49,6 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'rest_framework_swagger',
     'rest_auth.registration',
     'django_filters',
     'django.contrib.admin',
@@ -163,7 +163,10 @@ REST_AUTH_SERIALIZERS= {
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+
+
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 CORS_ORIGIN_ALLOW_ALL = True
 MEDIA_URL = '/fish/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'fish/')
@@ -171,3 +174,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'fish/')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+django_heroku.settings(locals())

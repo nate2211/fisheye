@@ -347,7 +347,7 @@ def doFullDir(iPath, labels):
             
         
         os.chdir(str(label))    
-        data.image.save(str(name + ".png"))
+        data.image.save(name)
 
         os.chdir("../../")
         with open("database/data.txt", 'a') as f:

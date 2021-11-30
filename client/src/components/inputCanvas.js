@@ -44,7 +44,7 @@ export default function InputCanvas({res, d, image}){
         data.append('t', thresRef.current.value)
         data.append('points', JSON.stringify(points))
         data.append('op', op)
-        axios.post('http://127.0.0.1:8000/backend/images/', data).then((res) => setData(res.data))
+        axios.post('https://natefsheye.herokuapp.com/backend/images/', data).then((res) => setData(res.data))
             .catch((error) => alert(error.message))
 
 

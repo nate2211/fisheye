@@ -19,7 +19,7 @@ export const SignIn = () => {
         data.append('email', email.current.value);
         data.append("username", username.current.value);
         data.append("password", password.current.value);
-        axios.post("http://127.0.0.1:8000/rest-auth/login/", data)
+        axios.post("https://natefsheye.herokuapp.com/rest-auth/login/", data)
             .then((res) => UserSet({username: username.current.value, email: email.current.value, token: res.data.key, id: res.data.user}))
             .then(() => navigate("/") )
             .catch((error) => alert(error.message))
@@ -59,7 +59,7 @@ export const SignUp = () => {
         data.append("username", username.current.value);
         data.append("password1", password.current.value);
         data.append("password2", password2.current.value);
-        axios.post("http://127.0.0.1:8000/rest-auth/registration/", data).then((res) => console.log(res))
+        axios.post("https://natefsheye.herokuapp.com/rest-auth/registration/", data).then((res) => console.log(res))
             .catch((error) => prompt(error.message))
 
     };
@@ -95,7 +95,7 @@ export const ForgetPassword = () => {
         data.append('new_password1', password.current.value);
         data.append("new_password2", password1.current.value);
         data.append("old_password", );
-        axios.post("http://127.0.0.1:8000/rest-auth/password/change/", data,{
+        axios.post("https://natefsheye.herokuapp.com/rest-auth/password/change/", data,{
             headers:{ 'Authorization' :  `Token ${user.token}` }
         }).then((res) => console.log(res)).catch((error) =>  alert(error.message))
     }
