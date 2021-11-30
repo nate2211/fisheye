@@ -13,7 +13,7 @@ export default function Navi() {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
                     <Nav.Link as={Link} to={RoutesE.home}>Home</Nav.Link>
-                    <Nav.Link as={Link} to={RoutesE.upload}>Upload</Nav.Link>
+                    {user !== null && <Nav.Link as={Link} to={RoutesE.upload}>Upload</Nav.Link>}
                     <Nav.Link as={Link} to={RoutesE.embed}>Embed</Nav.Link>
                     {user !== null ?<Nav.Link as={Link} to={RoutesE.account}>Account</Nav.Link>: <Nav.Link as={Link} to={RoutesE.signin}>Sign In</Nav.Link>}
                     {user !== null && <Nav.Link as={Link} to={RoutesE.signout}>Sign Out</Nav.Link>}

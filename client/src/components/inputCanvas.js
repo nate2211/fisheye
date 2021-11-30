@@ -9,7 +9,7 @@ export default function InputCanvas({res, d, image}){
     const thresRef = useRef();
     const [scale] = useState(10);
     const [data, setData] = useState(null);
-    const [op, setOp] = useState()
+    const [op, setOp] = useState(true)
     const {seeds, setSeeds, addSeed, removeSeed, resetSeeds, points} = useSeeds();
     function drawGrid(){
         const context = canvasRef.current.getContext('2d');

@@ -99,15 +99,28 @@ class RegionGrowing():
         return list(dict.fromkeys(arr))
     
 
+    def uniqueRegions(self):
+        points = {}
+        r = 0
+        for region in self.regions:
+            for point in region:
+                try:
+                    points[point] = r
+                except KeyError:
+                    pass
+            r += 1
+        return points                
+
     def outPut(self):
         newImage = Image.new('RGB', (300, 300))
         n = 0
         self.aRegion = self.total(self.regions)
-        
+        points = self.uniqueRegions()
         for region in self.regions:
             self.data[n] = region
-            for point in region:     
-                newImage.putpixel(point, self.colors[n])
+            for point in region:
+                color = points[point]
+                newImage.putpixel(point, self.colors[color])
             n += 1
               
         return newImage
@@ -190,19 +203,30 @@ class Data():
         
    
     def calcLabel(self, data):
-        currentDistance = 10000
+        currentDistance = 1000000
         currentLabel = None
-        
+        self.distances = {}
         for label in self.labels:
             arr = data.data[label]
             for element in arr:
                 ex = (self.inert[0] - float(element[0]))**2
                 ey = (self.inert[1] - float(element[1]))**2
-                distance = math.sqrt(ex + ey)                    
-                self.distances[distance] = label
-                if distance < currentDistance:
-                    currentDistance = distance
-                    currentLabel = label
+                distance = math.sqrt(ex + ey)
+                try:
+                    self.distances[label].append(distance)
+                except KeyError:                    
+                    self.distances[label] = [distance] 
+
+
+        
+        for label in self.labels:
+            a = self.distances[label]
+            currentAvg = sum(a) / len(a)
+            if  currentAvg < currentDistance:
+                currentDistance = currentAvg
+                currentLabel = label
+        
+
         return currentLabel
                     
         
@@ -210,6 +234,7 @@ class Data():
     def query(self, n, data):
         ir = []
         coors = {}
+        self.distances = {}
         for label in self.labels:
             arr = data.data[label]
             for element in arr:
@@ -221,9 +246,13 @@ class Data():
                 ir.append(distance)
                     
         ir = sorted(ir)
+            
+        
+            
+       
         output = []
         for x in range(n):
-            output.append((self.distances[ir[x]], ir[x], data.images[coors[ir[x]]))
+            output.append((self.distances[ir[x]], ir[x], data.images[coors[ir[x]]]))
         
         return output  
         
@@ -240,9 +269,17 @@ class DataArray():
         self.data={}
         self.images = {}
     
+
+        
+    
+    def __str__(self):
+        s = []
+        for label, element in self.data.items():
+            s.append([label, element])
+        return str(s)
     def addToData(self, element):
         label = element[0]
-        coors = (element[1], element[2])
+        coors = (float(element[1]), float(element[2]))
         self.images[coors] = element[3]
         try:
             self.data[label].append(coors)
@@ -263,6 +300,9 @@ def doFullDir(iPath, labels):
     os.chdir(iPath)
     for path in paths:
         resize = Image.open(path).resize((300,300))
+        os.chdir("../")
+        resize.save("resize.png")
+        os.chdir(iPath)
         redo = "y"
         plt.imshow(np.asarray(resize), cmap="Greys", interpolation="None")
         plt.show(block=False)
@@ -316,7 +356,7 @@ def doFullDir(iPath, labels):
         os.chdir(iPath)
 
 
-        
+
 
 
 def main(labels):
@@ -364,6 +404,9 @@ def main(labels):
     if label == "n":
         label = data.calcLabel(dataA)
         print('Calc Label: ', label)
+        o = input('OverWrite y/n:')
+        if o == 'y':
+            label = input("Assign Label") 
     else:
         if label not in labels:
             os.chdir("database")
@@ -401,13 +444,13 @@ if __name__ == "__main__":
                 if len(a) > 1:
                     dataA.addToData(a)
         d1.close()
-    
+
     
     d = input("Do Full Dir y/n: ")
     if d == 'y':
         path = input("Path: ")
         doFullDir(path, labels)
-    else:
+    else: 
         main(labels)
 
 
